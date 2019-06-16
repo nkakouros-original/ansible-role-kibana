@@ -8,3 +8,10 @@
     owner: "{{ kibana_user }}"
     group: "{{ kibana_group }}"
   notify: kibana restart service
+
+- name: Upload startup overrides
+  blockinfile:
+    path: "{{ _kibana_startup_env_file }}"
+    block: "{{ kibana_startup_overrides }}"
+  when: kibana_startup_overrides != None
+  notify: kibana restart service

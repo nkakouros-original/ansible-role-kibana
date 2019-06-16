@@ -27,6 +27,6 @@
       elasticsearch:
         ssl:
           alwaysPresentCertificate: true
-  tasks:
+  pre_tasks:
     - debug:
         msg: "{{ lookup('file', elastic_builtin_users_password_backup_file) }}"

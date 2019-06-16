@@ -4,3 +4,13 @@
   set_fact:
     kibana_combined_config:
       "{{ _kibana_default_config | combine(kibana_config, recursive=true) }}"
+
+- name: Load platform specific variables
+  include_vars:
+    file: "{{ lookup('first_found', params, errors='ignore') }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_os_family }}.yml"
+      paths:
+        - 'vars'

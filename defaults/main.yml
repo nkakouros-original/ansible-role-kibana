@@ -9,7 +9,11 @@ kibana_major_version: 7
 
 kibana_user: root
 # The user that will own kibana files. Kibana itself will run as the kibana user
-# as defined in the systemd service file that comes with the installation.
+# as defined in the systemd service file that comes with the installation. If
+# you want to change the user kibana will run as, you can use the
+# `kibana_startup_overrides` variable to override values in
+# `/etc/default/kibana` or `/etc/sysconfig/kibana`, including the `user`
+# variable.
 
 kibana_group: kibana
 # The group that `kibana_user` will be added to. If the `kibana_user` is `root`,
@@ -36,6 +40,14 @@ kibana_port: 5601
 kibana_elastic_hosts:
   - "http{{ (kibana_elastic_certificates != None) | ternary('s', '') }}://localhost:9200"
 # A list of urls where elasticsearch can be reached at.
+
+kibana_startup_overrides: ~
+# Use this variable to change entries in `/etc/default/kibana` (Debian) or
+# `/etc/sysconfig/kibana` (RedHat), such as the user or group kibana will run as
+# via systemd. These files are loaded by the systemd kibana service file.
+# Example:
+# kibana_startup_overrides: |
+#   user={{ kibana_user }}
 # }}}
 # Security {{{
 kibana_elasticsearch_user: ~

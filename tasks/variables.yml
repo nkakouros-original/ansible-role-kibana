@@ -1,0 +1,6 @@
+---
+
+- name: Set configuration defaults
+  set_fact:
+    kibana_combined_config:
+      "{{ _kibana_default_config | combine(kibana_config, recursive=true) }}"

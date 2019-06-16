@@ -1,0 +1,39 @@
+---
+
+- name: Create elasticsearch CA cert folder
+  file:
+    path: "{{ kibana_elastic_certificates_dir }}"
+    state: directory
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+    mode: 0o750
+
+- name: Upload elasticsearch CA cert
+  copy:
+    src: "{{ item.value }}"
+    dest: "{{ kibana_elastic_certificates_dir }}/"
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+    mode: 0o640
+  loop: "{{ kibana_elastic_certificates | dict2items }}"
+  notify: kibana restart service
+
+- name: Configure Kibana to use the elasticsearch certificates
+  set_fact:
+    kibana_combined_config: >-
+      {{
+        _kibana_cert_settings |
+        combine(kibana_combined_config, recursive=true)
+      }}
+  vars:
+    _kibana_cert_settings:
+      elasticsearch:
+        ssl:
+          verificationMode: certificate
+          key: "{{ kibana_elastic_certificates_dir }}/{{
+                            kibana_elastic_certificates.key | basename }}"
+          certificate: "{{ kibana_elastic_certificates_dir }}/{{
+                            kibana_elastic_certificates.crt | basename }}"
+          certificateAuthorities:
+            - "{{ kibana_elastic_certificates_dir }}/{{
+                        kibana_elastic_certificates.ca | basename }}"

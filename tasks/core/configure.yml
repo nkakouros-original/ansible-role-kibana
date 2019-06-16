@@ -1,0 +1,10 @@
+---
+
+- name: Upload kibana configuration
+  copy:
+    content: >-
+      {{ kibana_combined_config | to_nice_yaml(indent=2, explicit_start=true) }}
+    dest: /etc/kibana/kibana.yml
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+  notify: kibana restart service

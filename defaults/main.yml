@@ -1,0 +1,74 @@
+---
+
+kibana_enabled: true
+# Set to false to completely disable the role
+
+# Installation{{{
+kibana_major_version: 7
+# The major version of kibana to install.
+
+kibana_user: root
+# The user that will own kibana files. Kibana itself will run as the kibana user
+# as defined in the systemd service file that comes with the installation.
+
+kibana_group: kibana
+# The group that `kibana_user` will be added to. If the `kibana_user` is `root`,
+# the `root` user will not be added to this group. By default, when installing
+# kibana, the configuration files are owned by user `root` and group `kibana`.
+# The default behavior of the role is to replicate this, while giving the option
+# to the user to run kibana as an arbitrary user/group if the need to.
+# }}}
+# Configuration {{{
+kibana_config: {}
+# Use this array to set the kibana configuration. This will be merged with and
+# overwrite a default configuration that ships with this role (`vars/main.yml`).
+# The variables below will be used by the default configuration. Of course, you
+# can ignore them and set the relevant keys directly in `kibana_config`.
+
+kibana_name: "{{ inventory_hostname }}"
+
+kibana_host: localhost
+# The address where kibana will listen on.
+
+kibana_port: 5601
+# The port where kibana will listen on.
+
+kibana_elastic_hosts:
+  - "http{{ (kibana_elastic_certificates != None) | ternary('s', '') }}://localhost:9200"
+# A list of urls where elasticsearch can be reached at.
+# }}}
+# Security {{{
+kibana_elasticsearch_user: ~
+# The elasticsearch user that kibana will use to connect to elasticsearch. Leave
+# it `None`/`~` if there is no such user configured (ie if the default built-in
+# user should be used without a password). Valid keys:
+# kibana_elasticsearch_user:
+#   name: UserName
+#   password: UserPassword
+
+kibana_elastic_certificates: ~
+# Valid keys:
+# kibana_elastic_certificates:
+#   ca: path/to/elastic/ca
+#   crt: path/to/kibana/cert
+#   key: path/to/kibana/cert/key
+# These files will be uploaded to `kibana_elastic_certificates_dir` and kibana
+# will be configured to read them (if not overridden by you via
+# `kibana_config`). The `ca` key show the path to the certificate of the CA that
+# was used to sign the node's certificate. You can omit this key if you used
+# a public CA to sign the certificate. The `crt` key is the path to the node
+# certificate that will be used to verify Kibana against elasticsearch. The
+# `key` key is the path to the private key used with the node certificate.
+
+kibana_elastic_certificates_dir: /etc/kibana/certs
+# The path where the `kibana_elastic_certificates` will be uploaded into.
+
+kibana_elastic_certificates_passphrase: ~
+# The passphrase used to encrypt the node's private key. If none, leave this
+# setting to `None`/`~`.
+
+kibana_update_passwords: false
+# Set to true to update the `kibana_user.password` and
+# `kibana_elastic_certificates_passphrase` in the kibana keystore. By default
+# this is off to support idempotenty in ansible.
+# }}}

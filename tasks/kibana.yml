@@ -1,0 +1,20 @@
+---
+
+- include_tasks: assertions.yml
+
+- include_tasks: variables.yml
+
+- include_tasks: core/system.yml
+
+- include_tasks: "core/install/{{ ansible_os_family }}.yml"
+
+- include_tasks: core/keystore.yml
+
+- include_tasks: security/certificates.yml
+  when: kibana_elastic_certificates != None
+
+- include_tasks: security/keystore.yml
+
+- include_tasks: core/configure.yml
+
+- include_tasks: core/service.yml

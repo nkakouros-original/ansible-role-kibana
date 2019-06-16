@@ -1,0 +1,8 @@
+---
+
+- name: Restart the kibana service
+  systemd:
+    name: kibana
+    state: restarted
+    daemon_reload: true
+  listen: kibana restart service

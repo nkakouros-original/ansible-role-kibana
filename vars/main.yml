@@ -1,0 +1,10 @@
+---
+
+_kibana_default_config:
+  csp:
+    strict: true
+  elasticsearch:
+    hosts: "{{ kibana_elastic_hosts }}"
+  server:
+    host: "{{ kibana_host }}"
+    port: "{{ kibana_port }}"

@@ -1,0 +1,7 @@
+---
+
+- name: Start the kibana service
+  systemd:
+    name: kibana
+    enabled: true
+    state: started

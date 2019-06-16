@@ -1,0 +1,40 @@
+---
+
+- name: Prepare
+  hosts: all
+  roles:
+    - reallyenglish.apt-repo
+    - geerlingguy.java
+    - nkakouros.kibana
+  vars:
+    apt_repo_to_add:
+      - ppa:webupd8team/java
+    java_packages:
+      - openjdk-8-jre
+    elastic_cluster_name: watchmen
+    elastic_node_name: nite-owl
+    elastic_jvm_extra_config: |
+      -Des.enforce.bootstrap.checks=true
+    elastic_certificates_config:
+      instances:
+        - name: all
+    elastic_certificates_download_dir: '/tmp/elastic'
+    elastic_certificates:
+      ca: "{{ elastic_certificates_download_dir }}/ca/ca.crt"
+      crt: "{{ elastic_certificates_download_dir }}/all/all.crt"
+      key: "{{ elastic_certificates_download_dir }}/all/all.key"
+    elastic_certificates_password: 'secret-password'
+    elastic_builtin_users_password_backup_file: elastic-passwords
+    elastic_transport_host: _site_
+    elastic_config:
+      xpack:
+        security:
+          enabled: true
+          hide_settings: 'xpack.security.authc.realms.native.*'
+          authc:
+            accept_default_password: false
+            realms:
+              native:
+                native1:
+                  enabled: true
+                  order: 0

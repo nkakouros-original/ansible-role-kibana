@@ -1,48 +1,56 @@
-Role Name
-=========
+[![Build
+Status](https://travis-ci.com/nkakouros-original/ansible-role-kibana.svg?branch=master)](https://travis-ci.com/nkakouros-original/ansible-role-kibana)
+[![Galaxy](https://img.shields.io/badge/galaxy-nkakouros.elasticsearch-blue.svg)](https://galaxy.ansible.com/nkakouros/kibana/)
 
-A brief description of the role goes here.
+ansible-role-kibana
+===================
+
+Installs and configures Kibana.
+
+Description
+-----------
+
+This role will:
+
+- install Kibana
+- configure Kibana
+- enable TLS for communication with elasticsearch
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+None, other than a working elasticsearch node with which Kibana will be
+configured to talk to.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+Look at the [defaults/main.yml](defaults/main.yml) file for this roles variables
+and their documentation.
+
+The role uses an ansible dict (`kibana_config`) to configure Kibana making it
+extremely easy to override any defaults used by the role.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+You could use
+[nkakouros.elasticsearch](https://galaxy.ansible.com/nkakouros/elasticsearch/)
+to install elasticsearch.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
+```yaml
 
-    - hosts: servers
-      roles:
-         - { role: ansible/roles/services/nkakouros.kibana, x: 42 }
+```
 
 License
 -------
 
-BSD
+GPLv3
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+Nikolaos Kakouros (nkak@kth.se)

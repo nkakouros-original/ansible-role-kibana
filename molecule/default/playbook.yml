@@ -2,4 +2,28 @@
 - name: Converge
   hosts: all
   roles:
-    - role: ansible/roles/services/nkakouros.kibana
+    - role: nkakouros.kibana
+  vars:
+    elastic_certificates_download_dir: '/tmp/elastic'
+    elastic_certificates_password: 'secret-password'
+    elastic_builtin_users_password_backup_file: elastic-passwords
+    kibana_host: "{{ ansible_default_ipv4.address }}"
+    kibana_elasticsearch_user: >-
+      {{
+        (
+          lookup('file', elastic_builtin_users_password_backup_file)
+          | from_yaml
+          | selectattr('name', 'equalto', 'kibana')
+          | list
+        )[0]
+      }}
+    kibana_elastic_certificates:
+      ca: "{{ elastic_certificates_download_dir }}/ca/ca.crt"
+      crt: "{{ elastic_certificates_download_dir }}/all/all.crt"
+      key: "{{ elastic_certificates_download_dir }}/all/all.key"
+    kibana_elastic_certificates_passphrase:
+      "{{ elastic_certificates_password }}"
+    kibana_config:
+      elasticsearch:
+        ssl:
+          alwaysPresentCertificate: true

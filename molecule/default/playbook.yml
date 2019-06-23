@@ -8,7 +8,7 @@
     # existing information could be re-used if you combined the two playbooks
     # (`prepare.yml` and `playbook.yml` in one).
     elastic_certificates_password: 'nk}$Q%];a3Gy$E!QvT8E'
-    elastic_builtin_users_password_backup_file: ~elk//elastic-passwords
+    elastic_builtin_users_password_backup_file: ~/elk/elastic-passwords
     elastic_certificates_download_dir: ~/elk/certs/
     kibana_host: "{{ ansible_default_ipv4.address }}"
     kibana_elasticsearch_user: >-

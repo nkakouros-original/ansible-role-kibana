@@ -23,5 +23,6 @@ provisioner:
     IN_MOLECULE: 'true'
 verifier:
   name: testinfra
+  enabled: false
   lint:
     name: flake8

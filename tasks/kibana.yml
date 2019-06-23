@@ -17,4 +17,6 @@
 
 - include_tasks: core/configure.yml
 
+- meta: flush_handlers
+
 - include_tasks: core/service.yml

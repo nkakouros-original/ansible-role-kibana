@@ -38,7 +38,8 @@ kibana_port: 5601
 # The port where kibana will listen on.
 
 kibana_elastic_hosts:
-  - "http{{ (kibana_elastic_certificates != None) | ternary('s', '') }}://localhost:9200"
+  - "http{{ (kibana_elastic_certificates != None) | ternary('s', '')
+      }}://localhost:9200"
 # A list of urls where elasticsearch can be reached at.
 
 kibana_startup_overrides: ~
@@ -66,11 +67,11 @@ kibana_elastic_certificates: ~
 #   key: path/to/kibana/cert/key
 # These files will be uploaded to `kibana_elastic_certificates_dir` and kibana
 # will be configured to read them (if not overridden by you via
-# `kibana_config`). The `ca` key show the path to the certificate of the CA that
-# was used to sign the node's certificate. You can omit this key if you used
-# a public CA to sign the certificate. The `crt` key is the path to the node
-# certificate that will be used to verify Kibana against elasticsearch. The
-# `key` key is the path to the private key used with the node certificate.
+# `kibana_config`). The `ca` key shows the path to the certificate of the CA
+# that was used to sign the elastic node's certificate. You can omit this key if
+# you used a public CA to sign the certificate. The `crt` key is the path to the
+# node certificate that will be used to verify Kibana against elasticsearch. The
+# `key` key is the path to the private key used to sign Kibana's certificate.
 
 kibana_elastic_certificates_dir: /etc/kibana/certs
 # The path where the `kibana_elastic_certificates` will be uploaded into.

@@ -4,9 +4,12 @@
   roles:
     - role: nkakouros.kibana
   vars:
-    elastic_certificates_download_dir: '/tmp/elastic'
-    elastic_certificates_password: 'secret-password'
-    elastic_builtin_users_password_backup_file: elastic-passwords
+    # Re-using variables from `molecule/default/prepare.yml` to show how
+    # existing information could be re-used if you combined the two playbooks
+    # (`prepare.yml` and `playbook.yml` in one).
+    elastic_certificates_password: 'nk}$Q%];a3Gy$E!QvT8E'
+    elastic_builtin_users_password_backup_file: ~elk//elastic-passwords
+    elastic_certificates_download_dir: ~/elk/certs/
     kibana_host: "{{ ansible_default_ipv4.address }}"
     kibana_elasticsearch_user: >-
       {{
@@ -19,14 +22,13 @@
       }}
     kibana_elastic_certificates:
       ca: "{{ elastic_certificates_download_dir }}/ca/ca.crt"
-      crt: "{{ elastic_certificates_download_dir }}/all/all.crt"
-      key: "{{ elastic_certificates_download_dir }}/all/all.key"
+      crt: "{{ elastic_certificates_download_dir
+              }}/kibana-backend/kibana-backend.crt"
+      key: "{{ elastic_certificates_download_dir
+              }}/kibana-backend/kibana-backend.key"
     kibana_elastic_certificates_passphrase:
       "{{ elastic_certificates_password }}"
     kibana_config:
       elasticsearch:
         ssl:
           alwaysPresentCertificate: true
-  pre_tasks:
-    - debug:
-        msg: "{{ lookup('file', elastic_builtin_users_password_backup_file) }}"

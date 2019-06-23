@@ -10,7 +10,7 @@ Installs and configures Kibana.
 Description
 -----------
 
-This role will:
+This role will in a configurable manner:
 
 - install Kibana
 - configure Kibana
@@ -41,9 +41,22 @@ to install elasticsearch.
 Example Playbook
 ----------------
 
-```yaml
+This is a minimal playbook to have kibana installed as soon as possible, with no
+certificates, for development purposes.
 
+```yaml
+- hosts: kibana-server
+  roles:
+    - nkakouros.kibana
 ```
+
+For a full example on how to configure and install a full ELK installation (from
+where you can pick what is relevant for your use case) see the
+[molecule/default/](molecule/default/) folder. In there, the
+[prepare.yml](molecule/default/prepare.yml) file contains a playbook that will
+install dependencies that this role will need. The
+[playbook.yml](molecule/default/playbook.yml) file will contain a full and
+complex example of how to use this role specifically.
 
 License
 -------

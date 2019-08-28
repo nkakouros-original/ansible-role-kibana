@@ -4,6 +4,7 @@
   systemd:
     name: kibana
     state: restarted
+    enabled: true
     daemon_reload: true
   listen: kibana restart service
 

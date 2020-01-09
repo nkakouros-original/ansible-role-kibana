@@ -57,7 +57,7 @@ kibana_elasticsearch_user: ~
 # user should be used without a password). Valid keys:
 # kibana_elasticsearch_user:
 #   name: UserName
-#   password: UserPassword
+#   pass: UserPassword
 
 kibana_elastic_certificates: ~
 # Valid keys:

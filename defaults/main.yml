@@ -21,6 +21,11 @@ kibana_group: kibana
 # kibana, the configuration files are owned by user `root` and group `kibana`.
 # The default behavior of the role is to replicate this, while giving the option
 # to the user to run kibana as an arbitrary user/group if the need to.
+
+# Whether to exclude kibana from automatic system updates. Set this to true if
+# you want to manually update kibana. This is valid only for Linux servers that
+# may have some kind of unattended update mechanism.
+kibana_disable_auto_update: false
 # }}}
 # Configuration {{{
 kibana_config: {}

@@ -20,3 +20,12 @@
   vars:
     packages:
       - kibana
+
+- name: Disable automatic updates
+  copy:
+    content: |
+      Unattended-Upgrade::Package-Blacklist {
+        "kibana";
+      };
+    dest: /etc/apt/apt.conf.d/55kibana-disable
+  when: kibana_disable_auto_update | bool

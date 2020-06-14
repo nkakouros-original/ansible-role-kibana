@@ -19,7 +19,8 @@
     update_cache: true
   vars:
     packages:
-      - kibana
+      - "kibana={{ kibana_major_version }}.{{
+              '.*' if kibana_minor_version == '*' else kibana_minor_version | string + '.*'}}"
 
 - name: Disable automatic updates
   copy:

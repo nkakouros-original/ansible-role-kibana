@@ -7,6 +7,10 @@ kibana_enabled: true
 kibana_major_version: 7
 # The major version of kibana to install.
 
+kibana_minor_version: 7
+# The minor version of kibana to install. Set to `*` to install the
+# latest minor version for the `kibana_major_version`.
+
 kibana_user: root
 # The user that will own kibana files. Kibana itself will run as the kibana user
 # as defined in the systemd service file that comes with the installation. If

@@ -8,3 +8,5 @@ _kibana_default_config:
   server:
     host: "{{ kibana_host }}"
     port: "{{ kibana_port }}"
+  telemetry:
+    enabled: false

@@ -1,9 +1,21 @@
 ---
 
+- name: Combine configs
+  set_fact:
+    kibana_combined_config: >-
+      {{
+        _kibana_default_config
+        | combine(kibana_combined_config, recursive=True)
+        | combine(kibana_config, recursive=True)
+      }}
+
 - name: Upload kibana configuration
   copy:
     content: >-
-      {{ kibana_combined_config | to_nice_yaml(indent=2, explicit_start=true) }}
+      {{
+        kibana_combined_config
+        | to_nice_yaml(indent=2, explicit_start=True)
+      }}
     dest: /etc/kibana/kibana.yml
     owner: "{{ kibana_user }}"
     group: "{{ kibana_group }}"

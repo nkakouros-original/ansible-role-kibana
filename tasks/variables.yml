@@ -1,9 +1,8 @@
 ---
 
-- name: Set configuration defaults
+- name: Initialize variable
   set_fact:
-    kibana_combined_config:
-      "{{ _kibana_default_config | combine(kibana_config, recursive=true) }}"
+    kibana_combined_config: {}
 
 - name: Load platform specific variables
   include_vars:

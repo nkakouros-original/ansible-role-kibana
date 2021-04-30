@@ -4,8 +4,7 @@
   set_fact:
     kibana_combined_config: >-
       {{
-        _kibana_default_config
-        | combine(kibana_combined_config, recursive=True)
+        kibana_combined_config
         | combine(kibana_config, recursive=True)
       }}
 

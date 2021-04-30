@@ -32,24 +32,19 @@ kibana_group: kibana
 kibana_disable_auto_update: false
 # }}}
 # Configuration {{{
-kibana_config: {}
-# Use this array to set the kibana configuration. This will be merged with and
-# overwrite a default configuration that ships with this role (`vars/main.yml`).
-# The variables below will be used by the default configuration. Of course, you
-# can ignore them and set the relevant keys directly in `kibana_config`.
-
-kibana_name: "{{ inventory_hostname }}"
-
-kibana_host: localhost
-# The address where kibana will listen on.
-
-kibana_port: 5601
-# The port where kibana will listen on.
-
-kibana_elastic_hosts:
-  - "http{{ (kibana_elastic_certificates != None) | ternary('s', '')
-      }}://localhost:9200"
-# A list of urls where elasticsearch can be reached at.
+kibana_config:
+  csp:
+    strict: true
+  elasticsearch:
+    hosts:
+      - "http{{ (kibana_elastic_certificates != None) | ternary('s', '') }}://localhost:9200"
+  server:
+    host: localhost
+    port: 5601
+    name: "{{ inventory_hostname }}"
+  telemetry:
+    enabled: false
+# Use this array to set the kibana configuration.
 
 kibana_startup_overrides: ~
 # Use this variable to change entries in `/etc/default/kibana` (Debian) or

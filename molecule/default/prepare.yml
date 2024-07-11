@@ -5,10 +5,16 @@
   roles:
     - reallyenglish.apt-repo
     - geerlingguy.java
+    - geerlingguy.git
     - nkakouros.elasticsearch
   vars:
-    apt_repo_to_add:
-      - ppa:webupd8team/java
+    apt_repo_to_add: >-
+      {{
+        ['ppa:webupd8team/java']
+        if ansible_distribution_version != '20.04'
+          and ansible_distribution == 'Ubuntu'
+        else []
+      }}
     java_packages:
       - openjdk-8-jre
     elastic_cluster_name: watchmen
@@ -30,7 +36,7 @@
             - "35.210.0.23"
         - name: beats
     elastic_certificates_password: 'nk}$Q%];a3Gy$E!QvT8E'
-    elastic_certificates_download_dir: ~/elk/certs/
+    elastic_certificates_download_dir: ~/elk/certs
     elastic_certificates:
       ca: "{{ elastic_certificates_download_dir }}/ca/ca.crt"
       crt: "{{ elastic_certificates_download_dir }}/elastic/elastic.crt"
@@ -39,11 +45,36 @@
     elastic_builtin_users_set_random_passwords: true
     elastic_builtin_users_password_backup_file: ~/elk/elastic-passwords
     elastic_config:
+      http:
+        host:
+          - localhost
+        port: 9200
+      transport:
+        host:
+          - localhost
+        port: 9300
+      cluster:
+        name: elasticsearch
+      node:
+        name: "{{ inventory_hostname }}"
+        roles: [ master, data, ingest ]
+      discovery:
+        seed_providers:
+          - settings
+        seed_hosts:
+          - 127.0.0.1
+        type: single-node  # `zen`: multi-node cluster, `single-node`: single node cluster
+      path:
+        data: /var/lib/elasticsearch
+        logs: /var/log/elasticsearch
       xpack:
         security:
           hide_settings: 'xpack.security.authc.realms.native.*'
+          enabled: false
+          transport.ssl.enabled: false
+          http.ssl.enabled: false
           authc:
-            accept_default_password: false
+#            accept_default_password: false
             realms:
               native:
                 native1:
@@ -73,3 +104,16 @@
           },
         {%- endfor -%}
       ]
+  pre_tasks:
+    - name: Install necessary packages
+      package:
+        name: "{{ package }}"
+      loop: "{{ packages }}"
+      loop_control:
+        loop_var: package
+      vars:
+        packages:
+          - gnupg
+          - ca-certificates
+          - software-properties-common
+          - sudo

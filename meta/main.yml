@@ -2,6 +2,7 @@
 
 galaxy_info:
   role_name: kibana
+  namespace: nkakouros
   author: Nikolaos Kakouros
   description: Installs and configures Kibana
   license: GPLv3
